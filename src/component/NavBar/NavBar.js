@@ -1,17 +1,26 @@
 import React from 'react'
 import './NavBar.css'
+import { AppBar, Toolbar, Typography, Grid} from '@material-ui/core'
 
 const NavBar = props => (
-    <nav>
-        <ul>
-            <li className='brand animated lightSpeedIn'>
-                <a href='/clicky-game'>{props.title}</a>
-            </li>
-            <li className='rw'>{props.Message}</li>
-            <li className='cur-sco'>Current Score: {props.score}</li>
-            <li className='top-sco'>Top Score: {props.topScore}</li>
-        </ul>
-    </nav>
-)
+  <AppBar position="static">
+    <Toolbar>
+      <Grid item xs={3}>
+        <Typography variant="headline">SpongeBob Friends </Typography>
+      </Grid>
+      <Grid item xs={3}>
+        <Typography variant="headline">{props.message}</Typography>
+      </Grid>
+      <Grid item xs={3}>
+        <Typography variant="headline">
+          CurrentScore: {props.currentScore}
+        </Typography>
+      </Grid>
+      <Grid item xs={3}>
+        <Typography variant="headline">TopScore: {props.topScore}</Typography>
+      </Grid>
+    </Toolbar>
+  </AppBar>
+);
 
 export default NavBar;

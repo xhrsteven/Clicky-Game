@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 // import Grid from '@material-ui/core/Grid';
 import friends from './friends.json'
 import NavBar from './component/NavBar';
-import Wrapper from './component/Wrapper';
 import FriendCard from './component/FriendCard';
 import Title from './component/Title';
 import './App.css'
-
-
-
-function shuffleFriends(array) {
-    for(let i=array.length -1 ; i>0 ;i++){
-        let j=Math.floor(Math.random()*(i+1));
-        [array[i], array[j]] = [array[j], array[i]]; 
-    }
-}
+import GridList from '@material-ui/core/GridList';
 
 
 class App extends Component {
-    
 
     state = {
         friends,
         currentScore : 0,
         topScore: 0,
-        Message: '',
+        message: 'Click Picture You like',
         clicked: false,
+    }
+
+    shuffleArrary = array =>{
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
     }
 
     handleClick = () =>{
@@ -38,16 +35,16 @@ class App extends Component {
     };
 
     handleIncrement = () =>{
-        const newScore = this.state.currentScore +1;
+        const newScore = this.state.currentScore + 1;
         this.setState({
             currentScore: newScore,
-            Message: 'Keep Moving!'
-        });
+            message: 'Keep Moving!'
+        })
         if(newScore >= this.state.topScore){
             this.setState({topScore: newScore});
         }
         else if (newScore === 12){
-            this.setState({Message: 'Winner Winner Chicken Dinner!'})
+            this.setState({message: 'Winner Winner Chicken Dinner!'})
         } 
     };
 
@@ -55,34 +52,32 @@ class App extends Component {
         this.setState({
             currentScore: 0,
             topScore: this.state.topScore,
-            Message: 'Try Again!',
+            message: 'Try Again!',
             clicked: false,
         });
         this.handleShuffle();
     };
 
     handleShuffle = ()=>{
-        let shuffleFriend = shuffleFriends(friends);
+        let shuffleFriend = this.shuffleArrary(friends);
         this.setState({friends: shuffleFriend});
     };
 
     render() {
         return (
-            <Wrapper>
+            <Fragment>
                 <NavBar
-                    Title = 'SpongeBob Friends Click Game'
                     score = {this.state.currentScore}
                     topScore = {this.state.topScore}
-                    Message = {this.state.Message}
+                    message = {this.state.message}
                 />
                 <Title>
                     Try to click on each card, but don't hit any twice!
                 </Title>
-                
+                <GridList item cols={3}>
                     {this.state.friends.map(friend =>(
-                        // <Grid item xs={3}>
                             <FriendCard
-                                key={friend.id}
+                                key={friend}
                                 handleClick= {this.handleClick}
                                 handleIncrement={this.handleIncrement}
                                 handleReset={this.handleReset}
@@ -90,10 +85,9 @@ class App extends Component {
                                 id={friend.id}
                                 image={friend.image}>
                             </FriendCard>
-                        // </Grid>
                     ))}
-                
-            </Wrapper>
+                </GridList>
+            </Fragment>
         )
     }
 }
