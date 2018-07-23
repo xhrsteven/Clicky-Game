@@ -1,16 +1,16 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
-const htmlPlugin = new HtmlWebPackPlugin({
-  template: './src/index.html',
-  filename:'./src/index.html'
-})
+// const htmlPlugin = new HtmlWebPackPlugin({
+//   template: './src/index.html',
+//   filename:'./index.html'
+// })
 
 module.exports = {
-  entry: './src/App.js',
+  entry: {index: '/src/index.html'},
   output: {
-    path: path.resolve('dist'),
-    filename: 'bundled.js'
+    path: path.resolve("dist"),
+    filename: "bundled.js"
   },
   module: {
     rules: [
@@ -22,22 +22,30 @@ module.exports = {
         }
       },
       {
+        test: /\.html$/,
+        loader: "html-loader"
+      },
+      {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader'},
+            loader: "style-loader"
+          },
           {
-          loader: 'css-loader',
-          options:{
-            modules: true,
-            importLoaders: 1,
-            localIdentName: '[name]_[local]_[hash: base64 ]',
-            sourceMap: true,
-            minimize: true
+            loader: "css-loader",
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: "[name]_[local]_[hash: base64 ]",
+              sourceMap: true,
+              minimize: true
+            }
           }
-        }]
+        ]
       }
     ]
   },
-  plugins: [htmlPlugin]
+  plugins: [new HtmlWebPackPlugin({
+    template: 'index.html'
+  })]
 };
