@@ -7,7 +7,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
 })
 
 module.exports = {
-  // entry: {index: '/src/index.html'},
+  // entry: './src/App.js',
   // output: {
   //   path: path.resolve("dist"),
   //   filename: "bundled.js"
